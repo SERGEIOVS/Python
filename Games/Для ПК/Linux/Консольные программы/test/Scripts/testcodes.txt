@@ -1,0 +1,880 @@
+    if keys[pg.K_q] :
+        hero_angle += 5
+        #hero_image_rect = hero_image.get_rect(center = (screen_width /2 , screen_height / 2 ),width = 60,height = 60)
+        im_rotate = im.rotate(hero_angle, center=(25, 25))
+        im_rotate.save('картинки/hero.png')
+        hero_image = pg.image.load('картинки/hero.png')
+
+
+    if keys[pg.K_e] :
+        hero_angle -= 5
+        #hero_image_rect = hero_image.get_rect(center = (screen_width /2 , screen_height / 2 ),width = 60,height = 60)
+        im_rotate = im.rotate(hero_angle, center=(25, 25))
+        im_rotate.save('картинки/hero.png')
+        hero_image = pg.image.load('картинки/hero.png')
+
+
+
+
+shutil.copyfileobj(fsrc, fdst[, length]) - скопировать содержимое одного файлового объекта (fsrc) в другой (fdst). Необязательный параметр length - размер буфера при копировании
+(чтобы весь, возможно огромный, файл не читался целиком в память).
+
+При этом, если позиция указателя в fsrc не 0 (т.е. до этого было сделано что-то наподобие fsrc.read(47)), то будет копироваться содержимое начиная с текущей позиции, а не с начала файла.
+
+shutil.copyfile(src, dst, follow_symlinks=True) - копирует содержимое (но не метаданные) файла src в файл dst. Возвращает dst (т.е. куда файл был скопирован). src и dst это строки - пути к файлам.
+dst должен быть полным именем файла.
+
+Если src и dst представляют собой один и тот же файл, исключение shutil.SameFileError.
+
+Если dst существует, то он будет перезаписан.
+
+Если follow_symlinks=False и src является ссылкой на файл, то будет создана новая символическая ссылка вместо копирования файла, на который эта символическая ссылка указывает.
+
+shutil.copymode(src, dst, follow_symlinks=True) - копирует права доступа из src в dst. Содержимое файла, владелец, и группа не меняются.
+
+shutil.copystat(src, dst, follow_symlinks=True) - копирует права доступа, время последнего доступа, последнего изменения, и флаги src в dst. Содержимое файла, владелец, и группа не меняются.
+
+shutil.copy(src, dst, follow_symlinks=True) - копирует содержимое файла src в файл или папку dst. Если dst является директорией, файл будет скопирован с тем же названием, что было в src. 
+Функция возвращает путь к местонахождению нового скопированного файла.
+
+Если follow_symlinks=False, и src это ссылка, dst будет ссылкой.
+
+Если follow_symlinks=True, и src это ссылка, dst будет копией файла, на который ссылается src
+
+copy() копирует содержимое файла, и права доступа.
+
+shutil.copy2(src, dst, follow_symlinks=True) - как copy(), но пытается копировать все метаданные.
+
+shutil.copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2, ignore_dangling_symlinks=False) - рекурсивно копирует всё дерево директорий с корнем в src, возвращает директорию назначения.
+
+Директория dst не должна существовать. Она будет создана, вместе с пропущенными родительскими директориями.
+
+Права и времена у директорий копируются copystat(), файлы копируются с помощью функции copy_function (по умолчанию shutil.copy2()).
+
+Если symlinks=True, ссылки в дереве src будут ссылками в dst, и метаданные будут скопированы настолько, насколько это возможно.
+
+Если False (по умолчанию), будут скопированы содержимое и метаданные файлов, на которые указывали ссылки.
+
+Если symlinks=False, если файл, на который указывает ссылка, не существует, будет добавлено исключение в список ошибок, в исключении shutil.Error в конце копирования.
+
+Можно установить флаг ignore_dangling_symlinks=True, чтобы скрыть данную ошибку.
+
+Если ignore не None, то это должна быть функция, принимающая в качестве аргументов имя директории, в которой сейчас copytree(), и список содержимого, возвращаемый os.listdir(). Т.к. copytree() 
+вызывается рекурсивно, ignore вызывается 1 раз для каждой поддиректории. Она должна возвращать список объектов относительно текущего имени директории (т.е. подмножество элементов во втором аргументе). 
+Эти объекты не будут скопированы.
+
+shutil.ignore_patterns(*patterns) - функция, которая создаёт функцию, которая может быть использована в качестве ignore для copytree(), игнорируя файлы и директории, которые соответствуют 
+glob-style шаблонам.
+
+Например:
+
+copytree(source, destination, ignore=ignore_patterns('*.pyc', 'tmp*'))
+# Скопирует все файлы, кроме заканчивающихся на .pyc или начинающихся с tmp
+shutil.rmtree(path, ignore_errors=False, onerror=None) - Удаляет текущую директорию и все поддиректории; path должен указывать на директорию, а не на символическую ссылку.
+
+Если ignore_errors=True, то ошибки, возникающие в результате неудавшегося удаления, будут проигнорированы. Если False (по умолчанию), эти ошибки будут передаваться обработчику onerror, или, если его нет, 
+то исключение.
+
+На ОС, которые поддерживают функции на основе файловых дескрипторов, по умолчанию используется версия rmtree(), не уязвимая к атакам на символические ссылки.
+
+На других платформах это не так: при подобранном времени и обстоятельствах "хакер" может, манипулируя ссылками, удалить файлы, которые недоступны ему в других обстоятельствах.
+
+Чтобы проверить, уязвима ли система к подобным атакам, можно использовать атрибут rmtree.avoids_symlink_attacks.
+
+Если задан onerror, это должна быть функция с 3 параметрами: function, path, excinfo.
+
+Первый параметр, function, это функция, которая создала исключение; она зависит от платформы и интерпретатора. Второй параметр, path, это путь, передаваемый функции. Третий параметр, excinfo - это 
+информация об исключении, возвращаемая sys.exc_info(). Исключения, вызванные onerror, не обрабатываются.
+
+shutil.move(src, dst, copy_function=copy2) - рекурсивно перемещает файл или директорию (src) в другое место (dst), и возвращает место назначения.
+
+Если dst - существующая директория, то src перемещается внутрь директории. Если dst существует, но не директория, то оно может быть перезаписано.
+
+shutil.disk_usage(path) - возвращает статистику использования дискового пространства как namedtuple с атрибутами total, used и free, в байтах.
+
+shutil.chown(path, user=None, group=None) - меняет владельца и/или группу у файла или директории.
+
+shutil.which(cmd, mode=os.F_OK | os.X_OK, path=None) - возвращает путь к исполняемому файлу по заданной команде. Если нет соответствия ни с одним файлом, то None. mode это права доступа, требующиеся от файла,
+ по умолчанию ищет только исполняемые.
+
+Архивация
+Высокоуровневые функции для созданиия и чтения архивированных и сжатых файлов. Основаны на функциях из модулей zipfile и tarfile.
+
+
+shutil.make_archive(base_name, format[, root_dir[, base_dir[, verbose[, dry_run[, owner[, group[, logger]]]]]]]) - создаёт архив и возвращает его имя.
+
+base_name это имя файла для создания, включая путь, но не включая расширения (не нужно писать ".zip" и т.д.).
+
+format - формат архива.
+
+root_dir - директория (относительно текущей), которую мы архивируем.
+
+base_dir - директория, в которую будет архивироваться (т.е. все файлы в архиве будут в данной папке).
+
+Если dry_run=True, архив не будет создан, но операции, которые должны были быть выполнены, запишутся в logger.
+
+owner и group используются при создании tar-архива.
+
+shutil.get_archive_formats() - список доступных форматов для архивирования.
+
+
+shutil.get_archive_formats()
+
+[('bztar', "bzip2'ed tar-file"),
+('gztar', "gzip'ed tar-file"),
+('tar', 'uncompressed tar file'),
+('xztar', "xz'ed tar-file"),
+('zip', 'ZIP file')]
+
+
+shutil.unpack_archive(filename[, extract_dir[, format]]) - распаковывает архив. filename - полный путь к архиву.
+
+extract_dir - то, куда будет извлекаться содержимое (по умолчанию в текущую).
+
+format - формат архива (по умолчанию пытается угадать по расширению файла).
+
+shutil.get_unpack_formats() - список доступных форматов для разархивирования.
+
+Запрос размера терминала вывода
+shutil.get_terminal_size(fallback=(columns, lines)) - возвращает размер окна терминала.
+
+fallback вернётся, если не удалось узнать размер терминала (терминал не поддерживает такие запросы, или программа работает без терминала). По умолчанию (80, 24).
+
+shutil.get_terminal_size()
+
+os.terminal_size(columns=102, lines=29)
+
+shutil.get_terminal_size()  # Уменьшили окно
+
+os.terminal_size(columns=67, lines=17)
+
+
+
+
+from colorama import init
+init()
+from colorama import Fore, Back, Style
+print(Fore.GREEN + 'зеленый текст')
+print(Back.YELLOW + 'на желтом фоне')
+print(Style.BRIGHT + 'стал ярче' + Style.RESET_ALL)
+print('обычный текст')
+
+
+img1 = Image.open('kartinka.jpg')
+print(img1.size)
+newsize = (600,800)
+img.thumbnail(newsize)
+img.save('testpicture.jpg')
+
+
+from PIL import Image , ImageChops
+im = Image.open('картинки/button.png')
+im_crop = im.crop((0, 0, 100, 50))
+im_crop.save('картинки/button.png')
+
+
+from PIL import Image , ImageChops
+Dir = 'картинки/'
+one = Image.open(Dir + 'backpacks.jpg')
+back = Image.open(Dir + 'testpicture.jpg')
+r,g,b = one.split()
+value = int(input('Введите число от 0 до 255. 255 - изображение станет прозрачным '))
+#mask_temp = g.point(lambda x: уровень прозрачности )
+mask_temp = g.point(lambda x : value )
+mask = ImageChops.invert(mask_temp)
+newpicture = Image.composite(one,back, mask)
+newpicture.save('картинки/123.png')
+newpicture.show()
+
+
+
+#узнаем сколько времени выполняется код
+
+import time 
+
+start_time = time.time()
+
+time.sleep(10)
+
+print(f'Прошло {time.time() - statrtime}')
+
+
+from tabulate import tabulate
+
+table=[[],[]]
+
+run = True
+
+while True:
+
+    print('- Меню - ')
+
+    print('1 - Новая таблица')
+
+    print('2 - Обновить таблицу')
+
+    print('3 - Очистить заголовки таблицы')
+
+    print('4 - Очистить столбцы таблицы')
+
+    print('3 - Очистить таблицу')
+
+    action = input('*Что делаем?')
+
+    if action == '1':
+
+        tablename=input('Название таблицы : ')
+
+        rowscount = int(input('*Количество рядов : '))
+
+        columnscount= int(input('*Количество столбцов : '))
+
+        for i in range(columnscount):
+
+            if len(table[0]) < columnscount: 
+
+                headername = input('*Название столбца : ')
+
+                table[0].append(headername)
+
+        for i in range(rowscount):
+
+            if len(table[1]) < rowscount: 
+
+                rowname = input('Название 1 : ')
+
+                table[1].append(rowname)
+
+        print(tabulate(table, tablefmt="grid"))
+
+
+    if action == '3':
+        table[0].clear()
+        table[1].clear()
+        print(tabulate(table, tablefmt="grid"))
+
+
+
+
+import os
+a = int(input('num 1: '))
+b = int(input('num 2: '))
+c = input('znak : ')
+if c == '+':
+    print(int(a)+ int(b))
+if c == '*':
+    print(a*b)
+if c == '/':
+    print(a/b)
+if c == '-':
+    print(a-b)
+
+
+
+
+#чистим консоль
+if c == 'cls':
+    os.system('cls||clear')
+
+
+
+
+from tabulate import tabulate
+
+print()
+
+print()
+
+table=[
+
+       ["Столбец1 ","Столбец2"],
+
+       ["Ячейка1","Ячейка2"],
+
+       ["-","-"],
+
+       ["-","-"],
+
+       ["-"],
+
+       ["-"],
+
+       ["-","-"],
+
+       ["-"]
+
+       ]
+
+print(tabulate(table, tablefmt="grid"))
+print()
+print()
+
+
+
+#открываем файл на чтение и  выводим на экран его содержимое
+f = open('text.txt','r')
+line = f.read()
+print(line)
+f.close()
+
+
+
+#скачиваем файл по ссылке
+import urllib.request
+destination = 'tank.art'
+url = 'https://drive.google.com/drive/folders/1TWQ5LVKPQkS9p2nFyQr_eQ6ZbeJRgx5F'
+urllib.request.urlretrieve(url, destination)
+
+
+
+#смотрим содержимое папки
+import os
+print(os.listdir())
+
+
+
+#добавляем файлы из папки в список и выводим нужный файл
+files=[]
+files.append(os.listdir())
+print(files[0][3])
+
+
+
+#выводим количество файлов в папке
+import os
+print(os.listdir())
+print(len(os.listdir()))
+вставить в files элемент 5 на 2 позицию списка files
+files.insert(1,5)
+print(files)
+
+
+
+
+import os
+list=[]
+folder = 'C:\\123456789\Games\MyPythonGame/персонажи/герой'
+list.append(os.listdir(folder))
+print(list)
+print()
+test1 = list[0][0]
+print(test1)
+
+
+
+
+
+# работаем с файлами exel используя python
+import openpyxl
+wb = openpyxl.reader.excel.load_workbook(filename="sample.xlsx", data_only=True)
+print(wb.sheetnames)
+wb.active = 1
+sheet = wb.active
+#print(sheet['A1'].value)
+for i in range(1,12):
+    print(sheet['A'+str(i)].value,sheet['B'+str(i)].value,sheet['C'+str(i)].value)
+
+
+
+
+pygame.draw.rect(sc, (255, 255, 255),(20, 20, 100, 75))
+
+pygame.draw.rect(sc, (64, 128, 255), (150, 20, 100, 75), 8)
+
+pygame.draw.line(sc,WHITE,[10,30],[290,15],3)
+
+pygame.draw.line(sc,WHITE, [10,50],[290,35])
+
+pygame.draw.aaline(sc,WHITE,[10,70],[290,55])
+
+pygame.draw.lines(sc, WHITE, True,[[10, 10], [140, 70],[280, 20]], 2)
+
+pygame.draw.aalines(sc, WHITE, False,[[10, 100], [140, 170],[280, 110]])
+
+pygame.draw.polygon(sc, WHITE, [[150, 10], [180, 50], [90, 90], [30, 30]])
+
+pygame.draw.polygon(sc, WHITE, [[250, 110], [280, 150], [190, 190], [130, 130]])
+
+pygame.draw.aalines(sc, WHITE, True, [[250, 110], [280, 150], [190, 190], [130, 130]])
+
+pygame.draw.circle(sc,YELLOW,(100,100),50)
+
+pygame.draw.circle(sc,PINK,(200,100),50,10)
+
+pygame.draw.ellipse(sc, GREEN, (10, 50, 280, 100))
+
+pygame.draw.arc(sc, WHITE,(10, 50, 280, 100),0, pi)
+
+pygame.draw.arc(sc, PINK,(50, 30, 200, 150),pi, 2*pi, 3)
+
+
+
+pi = 3.14
+
+f1 = pygame.font.Font(None, 36)
+
+text1 = f1.render('Hello Привет', True,(180, 0, 0))
+
+f2 = pygame.font.SysFont('serif', 48)
+
+text2 = f2.render("World Мир", False,(0, 180, 0))
+
+sc.blit(text1, (10, 50))
+
+sc.blit(text2, (10, 100))
+
+pygame.display.update()
+
+
+
+
+import pygame as pg
+import sys
+pg.init()
+
+sc = pg.display.set_mode((400, 300))
+
+pg.mixer.music.load('Beethoven.ogg')
+
+pg.mixer.music.play()
+
+sound1 = pg.mixer.Sound('boom.wav')
+
+sound2 = pg.mixer.Sound('one.ogg')
+
+
+
+
+
+while 1:
+
+    for i in pg.event.get():
+        if i.type == pg.QUIT:
+            sys.exit()
+        elif i.type == pg.KEYUP:
+            if i.key == pg.K_1:
+                pg.mixer.music.pause()
+                # pygame.mixer.music.stop()
+            elif i.key == pg.K_2:
+                pg.mixer.music.unpause()
+                # pygame.mixer.music.play()
+                pg.mixer.music.set_volume(0.5)
+            elif i.key == pg.K_3:
+                pg.mixer.music.unpause()
+                # pygame.mixer.music.play()
+                pg.mixer.music.set_volume(1)
+        elif i.type == pg.MOUSEBUTTONUP:
+            if i.button == 1:
+                sound1.play()
+            elif i.button == 3:
+                sound2.play()
+
+    pg.time.delay(20)
+
+
+
+
+
+import pygame as pg
+
+import sys
+
+WHITE = (255, 255, 255)
+
+RED = (225, 0, 50)
+
+GREEN = (0, 225, 0)
+
+BLUE = (0, 0, 225)
+
+sc = pg.display.set_mode((400, 300))
+
+sc.fill(WHITE)
+
+pg.display.update()
+
+
+
+
+
+
+while 1:
+
+    for i in pg.event.get():
+        if i.type == pg.QUIT:
+            sys.exit()
+        if i.type == pg.MOUSEBUTTONDOWN:
+            if i.button == 1:
+                pg.draw.circle(
+                    sc, RED, i.pos, 20)
+                pg.display.update()
+            elif i.button == 3:
+                pg.draw.circle(
+                    sc, BLUE, i.pos, 20)
+                pg.draw.rect(
+                    sc, GREEN,
+                    (i.pos[0] - 10,
+                     i.pos[1] - 10,
+                     20, 20))
+                pg.display.update()
+            elif i.button == 2:
+                sc.fill(WHITE)
+                pg.display.update()
+
+    pg.time.delay(20)
+
+
+
+
+import pygame as pg,sys
+
+WHITE = (255, 255, 255)
+
+BLUE = (0, 0, 225)
+
+sc = pg.display.set_mode((400, 300))
+sc.fill(WHITE)
+pg.display.update()
+
+
+
+while 1:
+    for i in pg.event.get():
+        if i.type == pg.QUIT:
+            sys.exit()
+    pressed = pg.mouse.get_pressed()
+    pos = pg.mouse.get_pos()
+    if pressed[0]:
+        pg.draw.circle(sc, BLUE, pos, 5)
+        pg.display.update()
+    pg.time.delay(20)
+
+
+
+import pygame as pg
+import sys
+pg.init()
+
+WHITE = (255, 255, 255)
+
+BLUE = (0, 0, 225)
+
+sc = pg.display.set_mode((400, 300))
+
+sc.fill(WHITE)
+
+pg.display.update()
+
+pg.mouse.set_visible(False)
+
+
+
+while 1:
+    for i in pg.event.get():
+        if i.type == pg.QUIT:
+            sys.exit()
+    sc.fill(WHITE)
+    if pg.mouse.get_focused():
+        pos = pg.mouse.get_pos()
+        pg.draw.rect(
+            sc, BLUE, (pos[0] - 10,
+                       pos[1] - 10,
+                       20, 20))
+
+    pg.display.update()
+
+    pg.time.delay(20)
+
+
+
+import pygame as pg
+
+import sys
+
+W = 400
+
+H = 300
+
+sc = pg.display.set_mode((W, H))
+
+sc.fill((100, 150, 200))
+
+dog_surf = pg.image.load('dog.bmp')
+
+dog_rect = dog_surf.get_rect(bottomright=(W, H))
+
+sc.blit(dog_surf, dog_rect)
+
+pg.display.update()
+
+
+
+while 1:
+    for i in pg.event.get():
+        if i.type == pg.QUIT:
+            sys.exit()
+    pg.time.delay(20)
+
+
+
+
+
+Команды для cmd / терминала
+
+os.name - имя операционной системы. Доступные варианты: 'posix', 'nt', 'mac', 'os2', 'ce', 'java'.
+
+os.environ - словарь переменных окружения. Изменяемый (можно добавлять и удалять переменные окружения).
+
+os.getlogin() - имя пользователя, вошедшего в терминал (Unix).
+
+os.getpid() - текущий id процесса.
+
+os.uname() - информация об ОС. возвращает объект с атрибутами: sysname - имя операционной системы, nodename - имя машины в сети (определяется реализацией),
+release - релиз, version - версия, machine - идентификатор машины.
+
+os.access(path, mode, *, dir_fd=None, effective_ids=False, follow_symlinks=True) - проверка доступа к объекту у текущего пользователя. Флаги: os.F_OK - объект существует, os.
+
+R_OK - доступен на чтение, os.W_OK - доступен на запись,
+
+os.X_OK - доступен на исполнение.
+
+os.chdir(path) - смена текущей директории.
+
+os.chmod(path, mode, *, dir_fd=None, follow_symlinks=True) - смена прав доступа к объекту (mode - восьмеричное число).
+
+os.chown(path, uid, gid, *, dir_fd=None, follow_symlinks=True) - меняет id владельца и группы (Unix).
+
+os.getcwd() - текущая рабочая директория.
+
+os.link(src, dst, *, src_dir_fd=None, dst_dir_fd=None, follow_symlinks=True) - создаёт жёсткую ссылку.
+
+os.listdir(path=".") - список файлов и директорий в папке.
+
+os.mkdir(path, mode=0o777, *, dir_fd=None) - создаёт директорию. OSError, если директория существует.
+
+os.makedirs(path, mode=0o777, exist_ok=False) - создаёт директорию, создавая при этом промежуточные директории.
+
+os.remove(path, *, dir_fd=None) - удаляет путь к файлу.
+
+os.rename(src, dst, *, src_dir_fd=None, dst_dir_fd=None) - переименовывает файл или директорию из src в dst.
+
+os.renames(old, new) - переименовывает old в new, создавая промежуточные директории.
+
+os.replace(src, dst, *, src_dir_fd=None, dst_dir_fd=None) - переименовывает из src в dst с принудительной заменой.
+
+os.rmdir(path, *, dir_fd=None) - удаляет пустую директорию.
+
+os.removedirs(path) - удаляет директорию, затем пытается удалить родительские директории, и удаляет их рекурсивно, пока они пусты.
+
+os.symlink(source, link_name, target_is_directory=False, *, dir_fd=None) - создаёт символическую ссылку на объект.
+
+os.sync() - записывает все данные на диск (Unix).
+
+os.truncate(path, length) - обрезает файл до длины length.
+
+os.utime(path, times=None, *, ns=None, dir_fd=None, follow_symlinks=True) - модификация времени последнего доступа и изменения файла. Либо times - кортеж (время доступа в секундах,
+время изменения в секундах), 
+либо ns - кортеж (время доступа в наносекундах, время изменения в наносекундах).
+
+os.walk(top, topdown=True, onerror=None, followlinks=False) - генерация имён файлов в дереве каталогов, сверху вниз (если topdown равен True), либо снизу вверх (если False).
+Для каждого каталога функция walk возвращает кортеж (путь к каталогу, список каталогов, список файлов).
+
+os.system(command) - исполняет системную команду, возвращает код её завершения (в случае успеха 0).
+
+os.urandom(n) - n случайных байт. Возможно использование этой функции в криптографических целях.
+
+os.path - модуль, реализующий некоторые полезные функции на работы с путями.
+
+
+
+import datetime
+
+pri = datetime.datetime.now()
+
+print(pri)
+
+
+
+Класс datetime.date(year, month, day) - стандартная дата. Атрибуты: year, month, day. Неизменяемый объект.
+
+Класс datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None) - стандартное время, не зависит от даты. Атрибуты: hour, minute, second, microsecond, tzinfo.
+
+Класс datetime.timedelta - разница между двумя моментами времени, с точностью до микросекунд.
+
+Класс datetime.tzinfo - абстрактный базовый класс для информации о временной зоне (например, для учета часового пояса и / или летнего времени).
+
+Класс datetime.datetime(year, month, day, hour=0, minute=0, second=0, microsecond=0, tzinfo=None) - комбинация даты и времени.
+
+
+
+Обязательные аргументы:
+datetime.MINYEAR (1) ≤ year ≤ datetime.MAXYEAR (9999)
+1 ≤ month ≤ 12
+1 ≤ day ≤ количество дней в данном месяце и году
+
+
+
+Необязательные:
+0 ≤ minute < 60
+0 ≤ second < 60
+0 ≤ microsecond < 1000000
+
+
+
+Методы класса datetime:
+
+datetime.today() - объект datetime из текущей даты и времени. Работает также, как и datetime.now() со значением tz=None.
+
+datetime.fromtimestamp(timestamp) - дата из стандартного представления времени.
+
+datetime.fromordinal(ordinal) - дата из числа, представляющего собой количество дней, прошедших с 01.01.1970.
+
+datetime.now(tz=None) - объект datetime из текущей даты и времени.
+
+datetime.combine(date, time) - объект datetime из комбинации объектов date и time.
+
+datetime.strptime(date_string, format) - преобразует строку в datetime (так же, как и функция strptime из модуля time).
+
+datetime.strftime(format) - см. функцию strftime из модуля time.
+
+datetime.date() - объект даты (с отсечением времени).
+
+datetime.time() - объект времени (с отсечением даты).
+
+datetime.replace([year[, month[, day[, hour[, minute[, second[, microsecond[, tzinfo]]]]]]]]) - возвращает новый объект datetime с изменёнными атрибутами.
+
+datetime.timetuple() - возвращает struct_time из datetime.
+
+datetime.toordinal() - количество дней, прошедших с 01.01.1970.
+
+datetime.timestamp() - возвращает время в секундах с начала эпохи.
+
+datetime.weekday() - день недели в виде числа, понедельник - 0, воскресенье - 6.
+
+datetime.isoweekday() - день недели в виде числа, понедельник - 1, воскресенье - 7.
+
+datetime.isocalendar() - кортеж (год в формате ISO, ISO номер недели, ISO день недели).
+
+datetime.isoformat(sep='T') - красивая строка вида "YYYY-MM-DDTHH:MM:SS.mmmmmm" или, если microsecond == 0, "YYYY-MM-DDTHH:MM:SS"
+
+
+
+Загружаем и сохраняем картинку: guido-van-rossum.jpg
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im.show()
+
+
+
+Угол вращения картинки в Pillow
+
+В методе rotate() указываем угол вращения изображения в градусах в качестве первого аргумента. Направление вращения будет против часовой стрелки.
+
+Поворачиваем изображение на 90 градусов:
+
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(90)
+im_rotate.save('guido_90.jpg', quality=95)
+im.close()
+
+
+
+Поворачиваем изображение на 45 градусов через PIL в Python:
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(45)
+im_rotate.save('guido_45.jpg', quality=95)
+im.close()
+
+
+
+Поворачиваем изображение полностью
+Как видно на картинках в примерах выше, по умолчанию размер готового изображения равен размеру изначального изображения, а части повернутого изображения которые попали за пределами 
+изначального размера отсекаются. Если мы поставим параметр expand на True, то повернутое изображение удовлетворит наши требования.
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(90, expand=True)
+im_rotate.save('guido_expand_90.jpg', quality=95)
+im.close()
+
+
+
+Теперь изображение выглядит так как мы ожидали. Она повернулась полностью, без черных границ по сторонам.
+
+
+
+Поворачиваем изображение на 45 градусов.
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(45, expand=True)
+im_rotate.save('guido_expand_45.jpg', quality=95)
+im.close()
+
+
+Фильтры NEAREST, BILINEAR и BICUBIC в Pillow
+
+Параметр resample можно использовать для указания определенного фильтра, который будет использоваться при поворачивании изображения.
+Image.NEAREST (ближайший сосед / по умолчанию);
+Image.BILINEAR;
+Image.BICUBIC.
+
+С помощью фильтра Image.BICUBIC детали изображения станут более четким, чем в случае использования фильтра по умолчанию Image.NEAREST.
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(45, expand=True, resample=Image.BICUBIC)
+im_rotate.save('guido_resample_bicubic.jpg', quality=95)
+im.close()
+
+Небольшие различия есть, но у данной картинки они не очень видны. Но, например фильтр Image.BILINEAR сделал картинку более гладкой.
+
+
+
+Меняем центр изображения при её поворачивании
+Вы можете уточнить позицию центра изображения с помощью параметра center в методе rotate().
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(45, center=(0, 100))
+im_rotate.save('guido_new_center.jpg', quality=95)
+im.close()
+
+
+
+В случае, когда параметр expand=True, область выходящего изображения определяется предположением, что картинка крутится по своему изначальному центру.
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(45, expand=True, center=(0, 100))
+im_rotate.save('guido_new_center_expand.jpg', quality=95)
+im.close()
+
+Смещение изображения при поворачивании
+Вы можете задать определенное смещение перед вращением изображения с помощью параметра translate.
+Параметр translate требует два координата (смещения в x направлении,  смещения в y направлении).
+
+
+Чтобы продемонстрировать данное смещение, мы не будем поворачивать изображение а просто укажем нужное нам смещение.
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(0, translate=(100, 50))
+im_rotate.save('guido_translate_0.jpg', quality=95)
+im.close()
+
+
+
+Поворот изображения на 45 градусов со смещением:
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(45, translate=(100, 50))
+im_rotate.save('guido_translate_45.jpg', quality=95)
+im.close()
+
+
+
+Если параметр expand=True, итоговая область изображения определяется предположением, что картинка вращается без смещения.
+from PIL import Image
+im = Image.open('guido-van-rossum.jpg')
+im_rotate = im.rotate(45, translate=(100, 50), expand=True)
+im_rotate.save('guido_translate_expand_45.jpg', quality=95)
+im.close()
+
+

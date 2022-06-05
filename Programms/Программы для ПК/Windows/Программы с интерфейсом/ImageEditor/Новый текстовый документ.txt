@@ -1,0 +1,154 @@
+Functions¶
+Most channel operations take one or two image arguments and returns a new image. Unless otherwise noted, the result of a channel operation is always clipped to the range 0 to MAX (which is 255 for all modes supported by the operations in this module).
+
+PIL.ImageChops.add(image1, image2, scale=1.0, offset=0)[source]¶
+Adds two images, dividing the result by scale and adding the offset. If omitted, scale defaults to 1.0, and offset to 0.0.
+
+out = ((image1 + image2) / scale + offset)
+Return type
+Image
+
+PIL.ImageChops.add_modulo(image1, image2)[source]¶
+Add two images, without clipping the result.
+
+out = ((image1 + image2) % MAX)
+Return type
+Image
+
+PIL.ImageChops.blend(image1, image2, alpha)[source]¶
+Blend images using constant transparency weight. Alias for PIL.Image.blend().
+
+Return type
+Image
+
+PIL.ImageChops.composite(image1, image2, mask)[source]¶
+Create composite using transparency mask. Alias for PIL.Image.composite().
+
+Return type
+Image
+
+PIL.ImageChops.constant(image, value)[source]¶
+Fill a channel with a given grey level.
+
+Return type
+Image
+
+PIL.ImageChops.darker(image1, image2)[source]¶
+Compares the two images, pixel by pixel, and returns a new image containing the darker values.
+
+out = min(image1, image2)
+Return type
+Image
+
+PIL.ImageChops.difference(image1, image2)[source]¶
+Returns the absolute value of the pixel-by-pixel difference between the two images.
+
+out = abs(image1 - image2)
+Return type
+Image
+
+PIL.ImageChops.duplicate(image)[source]¶
+Copy a channel. Alias for PIL.Image.Image.copy().
+
+Return type
+Image
+
+PIL.ImageChops.invert(image)[source]¶
+Invert an image (channel).
+
+out = MAX - image
+Return type
+Image
+
+PIL.ImageChops.lighter(image1, image2)[source]¶
+Compares the two images, pixel by pixel, and returns a new image containing the lighter values.
+
+out = max(image1, image2)
+Return type
+Image
+
+PIL.ImageChops.logical_and(image1, image2)[source]¶
+Logical AND between two images.
+
+Both of the images must have mode “1”. If you would like to perform a logical AND on an image with a mode other than “1”, try multiply() instead, using a black-and-white mask as the second image.
+
+out = ((image1 and image2) % MAX)
+Return type
+Image
+
+PIL.ImageChops.logical_or(image1, image2)[source]¶
+Logical OR between two images.
+
+Both of the images must have mode “1”.
+
+out = ((image1 or image2) % MAX)
+Return type
+Image
+
+PIL.ImageChops.logical_xor(image1, image2)[source]¶
+Logical XOR between two images.
+
+Both of the images must have mode “1”.
+
+out = ((bool(image1) != bool(image2)) % MAX)
+Return type
+Image
+
+PIL.ImageChops.multiply(image1, image2)[source]¶
+Superimposes two images on top of each other.
+
+If you multiply an image with a solid black image, the result is black. If you multiply with a solid white image, the image is unaffected.
+
+out = image1 * image2 / MAX
+Return type
+Image
+
+PIL.ImageChops.soft_light(image1, image2)[source]¶
+Superimposes two images on top of each other using the Soft Light algorithm
+
+Return type
+Image
+
+PIL.ImageChops.hard_light(image1, image2)[source]¶
+Superimposes two images on top of each other using the Hard Light algorithm
+
+Return type
+Image
+
+PIL.ImageChops.overlay(image1, image2)[source]¶
+Superimposes two images on top of each other using the Overlay algorithm
+
+Return type
+Image
+
+PIL.ImageChops.offset(image, xoffset, yoffset=None)[source]¶
+Returns a copy of the image where data has been offset by the given distances. Data wraps around the edges. If yoffset is omitted, it is assumed to be equal to xoffset.
+
+Parameters
+xoffset – The horizontal distance.
+
+yoffset – The vertical distance. If omitted, both distances are set to the same value.
+
+Return type
+Image
+
+PIL.ImageChops.screen(image1, image2)[source]¶
+Superimposes two inverted images on top of each other.
+
+out = MAX - ((MAX - image1) * (MAX - image2) / MAX)
+Return type
+Image
+
+PIL.ImageChops.subtract(image1, image2, scale=1.0, offset=0)[source]¶
+Subtracts two images, dividing the result by scale and adding the offset. If omitted, scale defaults to 1.0, and offset to 0.0.
+
+out = ((image1 - image2) / scale + offset)
+Return type
+Image
+
+PIL.ImageChops.subtract_modulo(image1, image2)[source]¶
+Subtract two images, without clipping the result.
+
+out = ((image1 - image2) % MAX)
+Return type
+Image
