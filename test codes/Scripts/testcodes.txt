@@ -1,7 +1,19 @@
+#Создаем листы/sheets в файле exel
+
+from openpyxl import load_workbook
+# Load in the workbook
+wb = load_workbook('расчет.xlsx')
+data = 'My'
+# Get sheet names
+wb.create_sheet(data)
+print(wb.get_sheet_names())
+
+
+
     if keys[pg.K_q] :
         hero_angle += 5
-        #hero_image_rect = hero_image.get_rect(center = (screen_width /2 , screen_height / 2 ),width = 60,height = 60)
-        im_rotate = im.rotate(hero_angle, center=(25, 25))
+        #hero_image_rect = hero_image.get_rect(center = (screen_width / 2 , screen_height / 2 ) , width = 60 , height = 60 )
+        im_rotate = im.rotate(hero_angle , center = (25 , 25))
         im_rotate.save('картинки/hero.png')
         hero_image = pg.image.load('картинки/hero.png')
 
@@ -329,7 +341,7 @@ urllib.request.urlretrieve(url, destination)
 
 #смотрим содержимое папки
 import os
-print(os.listdir())
+print(os.listdir(путь к папке или название папки))
 
 
 
