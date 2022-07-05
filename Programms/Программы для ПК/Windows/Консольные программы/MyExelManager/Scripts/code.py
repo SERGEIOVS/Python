@@ -3,8 +3,8 @@ from typing import List
 from openpyxl import load_workbook
 
 
-
-Result = [
+#Saving here your last results
+Results = [
 
 
 
@@ -53,8 +53,8 @@ while start:
             f = open(str(filename),filemode)
 
             # Get sheet names
-            for i in range(1,len(Result)):
-                sheet['A'+str(i)].value =str(Result[i])
+            for i in range(1,len(Results)):
+                sheet['A'+str(i)].value =str(Results[i])
                 print(sheet['A'+str(i)].value)
 
             newfilename = input('kuda sohranjaem fail? : ')
