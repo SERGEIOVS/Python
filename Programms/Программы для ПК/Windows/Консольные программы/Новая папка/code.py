@@ -1,26 +1,65 @@
-
 from fileinput import filename
 from typing import List
 from openpyxl import load_workbook
 
-List1 = [ 'ttt' , 'xx' , 'yy' ]
 
-# Load in the workbook
-filename = input('nazvanie faila : ')
 
-filename = input('kuda sohranjaem fail? : ')
+List1 = [
 
-wb = load_workbook(str(filename))
-wb.active = 1
-sheet = wb.active
 
-# Get sheet names
 
-for i in range(1,len(List1)):
-    sheet['A'+str(i)].value =str(List1[i])
-    print(sheet['A'+str(i)].value)
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
 
-wb.save(str(filename))
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy',
+'ttt' , 'xx' , 'yy'
+
+
+
+]
+
+
+
+start = True
+while start:
+            # Load in the workbook
+            filename = input('nazvanie faila : ')
+
+            wb = load_workbook(str(filename))
+            wb.active = 1
+            sheet = wb.active
+            filemode = 'w'
+            f = open(str(filename),filemode)
+
+            # Get sheet names
+            for i in range(1,len(List1)):
+                sheet['A'+str(i)].value =str(List1[i])
+                print(sheet['A'+str(i)].value)
+
+            newfilename = input('kuda sohranjaem fail? : ')
+            wb.save(str(newfilename))
+
+
+
+
 
 """
 from typing import List
