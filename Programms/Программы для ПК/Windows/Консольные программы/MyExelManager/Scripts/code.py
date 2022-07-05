@@ -6,8 +6,6 @@ from openpyxl import load_workbook
 #Saving here your last results
 Results = [
 
-
-
 'ttt' , 'xx' , 'yy',
 'ttt' , 'xx' , 'yy',
 'ttt' , 'xx' , 'yy',
@@ -32,12 +30,10 @@ Results = [
 'ttt' , 'xx' , 'yy',
 'ttt' , 'xx' , 'yy'
 
-
-
 ]
 
 
-
+#main programm cycle
 start = True
 while start:
 

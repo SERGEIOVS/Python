@@ -17,13 +17,13 @@ while True:
     print('Make screenshot/s without interval ')
     print('Make screenshot/s with interval ')
 
-    screenshots_num = int(input('screenshots : '))
-    
+    screenshots_num = int(input('screenshots? (number)  : '))
+
     for i in range(screenshots_num):
 
-        x1 , y1 = 210 , 200
+        x1 , y1 = int(input('x1 : '))
 
-        x2 , y2 = 810 , 710
+        x2 , y2 = int(input('screenshots : '))
 
 
         #making a screenshot without name
@@ -40,18 +40,9 @@ while True:
     for i in minutes:
         if current_time_unit == i:
             time.sleep(1)
-            print('TEST',time_units[0],time_units[1],time_units[2])
+            print('TEST',time_units[i])
             screenshot = pyautogui.screenshot()
             screenshot = pyautogui.screenshot('скриншоты/test' +str(i)+ '.png',region=(x1 , y2, x2 , y2))
 
 
-"""
 
-
-
-
-
-
-
-
-"""
