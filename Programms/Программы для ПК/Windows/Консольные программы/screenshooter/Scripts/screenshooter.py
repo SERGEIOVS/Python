@@ -1,6 +1,21 @@
 import pyautogui
-screenshot = pyautogui.screenshot()
-screenshot.save('скриншоты/my_screenshot.jpg')
+print('MENU')
+
+print('Make screenshot/s without interval ')
+print('Make screenshot/s with interval ')
+
+screenshots_num = 1
+for i in range(screenshots_num):
+    #making a screenshot without name
+    screenshot = pyautogui.screenshot()
+
+
+    #making a screenshot name and path
+    screenshot_name = input('Screenshot name : ')
+    screenshot_path = input('Screenshot path : ')
+
+    #saving the  screnshot/s 
+    screenshot.save('скриншоты/' + str(screenshot_name) + '.jpg')
 
 """
 #sait - https://www.nordpoolgroup.com/Market-data1/Dayahead/Area-Prices/EE/Hourly/?view=table
