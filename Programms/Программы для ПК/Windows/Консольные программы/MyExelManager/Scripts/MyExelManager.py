@@ -2,6 +2,24 @@ from fileinput import filename
 from typing import List
 from openpyxl import load_workbook
 
+"""
+working with  formulas
+formulaslist = [
+
+
+    
+]
+
+def function:
+    print()
+
+
+
+"""
+
+
+
+
 
 #Saving here your last results
 Results = [

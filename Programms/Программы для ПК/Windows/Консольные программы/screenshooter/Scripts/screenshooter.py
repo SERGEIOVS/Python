@@ -5,7 +5,7 @@ minutes = []
 for i in  range(60):
     i+=1
     minutes.append(i)
-#print(minutes)
+
 
 
 start = True
@@ -32,7 +32,7 @@ while start:
 
                 x1 , y1 = int(input('x1 : ')) , int(input('y1 : '))
 
-                x2 , y2 = int(input('x2 : ')) , int(input('y1 : '))
+                x2 , y2 = int(input('x2 : ')) , int(input('y2 : '))
 
 
                 #making a screenshot without name
