@@ -58,6 +58,9 @@ while start:
     
             # Load in the workbook
             filename = input('nazvanie faila : ')
+            
+            filemode = 'w'
+            f = open(str(filename),filemode)
 
             wb = load_workbook(str(filename))
             wb.active = 1
@@ -73,6 +76,7 @@ while start:
             for i in range(1,len(Results)):
                 sheet['A'+str(i)].value =str(Results[i])
                 print(sheet['A'+str(i)].value)
+                wb["New Title132"]
 
             newfilename = input('kuda sohranjaem fail? : ')
             wb.save(str(newfilename))
