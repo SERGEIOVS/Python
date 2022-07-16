@@ -4,58 +4,43 @@ filemodes = ['r','w']
 
 currentfm = 0
 
-letters = ['A']
-
 nums = [1,2,3,4,5,6,7,8,9]
 
 currentnum = 0
-letter = letters[0]
 
 #main programm cycle
 start = True
 while start:
-            #READ FILE
 
-            action = input('action : ')
+            action = input('action : ') #READ FILE
 
             row = int(input('row : '))
 
             letter = input('letter : ')
     
-
-            
-
             if action =='read file':
 
                 filename = input('nazvanie faila : ')
 
-
-                # Load in the workbook
-                #wb -> workbook
-                wb = load_workbook(str(filename))
+                wb = load_workbook(str(filename)) # Load in the workbook #wb -> workbook
 
                 filemode = filemodes[currentfm]
                 
                 file = open(str(filename),filemode)
                 
-                #wb -> workbook
-                #ws -> worksheet
+                wsactive = wb.active #ws -> worksheet #wb -> workbook  
 
-                ws = wb.active
-                                
-                print(wb.sheetnames)
+                print()
+                for i in range (len(nums)):
+                    print(wsactive[letter + str(nums[i])].value)
 
-                print(ws[letter + str(nums[currentnum])].value)
-
-                print(file.name)
-
+                print()                    
+                
                 file.close()
 
+                wb.close()
 
-
-
-            #WRITE FILE
-            if action =='write file':
+            if action =='write file':#WRITE FILE
 
                 filemode = filemodes[currentfm]
 
@@ -68,13 +53,14 @@ while start:
                 wb = load_workbook(str(filename))
 
                 ws = wb.active
+
+                ws[letter + str(nums[row])].value = myvalue
                     
-                d = ws.cell(row = letter, column = row, value = myvalue)
-
-                print(d.value)
-
                 f.close()
+
+                wb.save(str(filename))
                 
+                wb.close()
 
 
 

@@ -3,7 +3,13 @@ import pandas as pd
 
 my_file = open('кол-во детонаторов.txt', 'w')
 
-det_number   = [1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , 11 , 12 , 13 , 14 , 15 , 16 , 17 , 18]
+dets = 18
+
+det_number   = []
+
+for i in range(dets):
+  i+=1
+  det_number.append(i)
 
 det_quantity = [1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  2 ,  1 ,  1]
 
@@ -16,42 +22,44 @@ print()
 run = True
 
 while run:
-    print()
-    Total_need =int(input('Cколько кубов требуется добыть? '))
 
-    #12640 кубов
+            print('-' * 50)
 
-    Camers_count = Total_need / camera_V
+            Total_need = int(input('Cколько кубов требуется добыть? '))
 
-    print('',int(Camers_count),'камер нужно')
+            #12640 кубов
 
-    print()
+            Camers_count = Total_need / camera_V
 
-    print('|','-' * 50)
+            print('',int(Camers_count),'камер нужно')
 
-    for i in range(len(det_quantity)):
+            print()
 
-        print('|','детонаторов серии',det_number[i],'нужно:',det_quantity[i] *int(Camers_count),'|')
+            print('|','-' * 50)
 
-        print('-' * 50)
+            for i in range(len(det_quantity)):
 
-        vsego = [det_number[i],det_quantity[i] * int(camera_V)]
-    
-        my_file.write(str(vsego)+'\n')
+                print('|','детонаторов серии',det_number[i],'нужно:',det_quantity[i] *int(Camers_count),'|')
 
-        df = pd.DataFrame({
+                print('-' * 50)
 
-                            'Тип'    : det_number,
+                vsego = [det_number[i],det_quantity[i] * int(camera_V)]
+            
+                my_file.write(str(vsego)+'\n')
 
-                            'Кол-во' :  det_quantity
+                df = pd.DataFrame({
 
-                          })
-        
-    df.to_excel('./расчет.xlsx')
+                                    'Тип'    : det_number,
 
-    my_file.close()
-    print( df['Кол-во'] )
-    
-    print(df)
+                                    'Кол-во' :  det_quantity
+
+                                  })
+                
+            df.to_excel('./расчет.xlsx')
+
+            my_file.close()
+
+            
+            print(df)
 
 
