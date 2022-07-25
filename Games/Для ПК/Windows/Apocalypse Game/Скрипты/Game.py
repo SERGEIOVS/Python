@@ -71,7 +71,7 @@ small_font = pg.font.Font( None , Fontsizes[1] )
 mouse_set_visible = pg.mouse.set_visible( False )
 
 
-
+"""
 class cam :
 
     def __init__( self , x , y ) :
@@ -113,7 +113,7 @@ class object :
 
 ##  P.S. я указывал переменные rect для того, чтобы можно было проверять коллизию между
 ##  объектами. К примеру: для увеличения производительности, в этой программе отрисовываются лишь те
-##  объекты, которые попадают в камеру. (Загугли pg.Rect.colliderect для большего)
+##  объекты, которые попадают в камеру. (Загугли pg.Rect.colliderect для большего)"""
 
 
 
@@ -138,9 +138,10 @@ environmentsound = environmentsounds[0]
 
 
 
-player = Player( 0 , 0)
 
-camera = cam(2,0)
+
+
+
 
 current_ammo = 10
 
@@ -225,6 +226,60 @@ hero_anmations = [
 pg.image.load( 'персонажи/герой/hero_run_left_1.png' ) , pg.image.load( 'персонажи/герой/hero_run_right_1.png' ) 
 
 ]
+
+
+class cam :
+
+    def __init__( self , x , y ) :
+        self.rect = pg.Rect( 2000 , 2000 , 500 , 500 )
+
+    def move( self , vector ) :
+        self.rect[ 0 ] += vector[ 0 ]
+        self.rect[ 1 ] += vector[ 1 ]
+
+class Player :
+    def __init__( self , x , y ) :
+        self.rect = pg.Rect( x , y , 10 , 10 ) 
+
+    def move( self , vector ) :
+        self.rect[ 0 ] += vector[ 0 ]
+        self.rect[ 1 ] += vector[ 1 ]
+
+    def draw( self ) :
+
+        ##  Игрок на самом окне не двигается, двигается мир вокруг него
+
+        pg.draw.rect( screen , ( 0 , 0 , 0 ) , ( 240 , 240 , 10 , 10 ) )
+
+
+"""
+class object :
+
+    ##  Это какой-нибудь объект, отличный игрока (к примеру враг или дерево)
+
+    def __init__( self , x , y , width , height ) :
+        self.rect = pg.Rect( x , y , width , height )
+
+
+
+    def draw( self ) : 
+
+        ##  Чтобы отрисовка соответствовала позиции объекта его нужно отрисовывать
+        ##  на self.rect[0]-camera.rect[0], self.rect[1]-camera.rect[1]
+
+        pg.draw.rect( screen , ( 255 , 0 , 0 ) , ( self.rect[ 0 ] - camera.rect[ 0 ] , self.rect[ 1 ] - camera.rect[ 1 ] , self.rect[ 2 ] , self.rect[ 3 ] ) , 2)
+
+"""
+
+
+##  P.S. я указывал переменные rect для того, чтобы можно было проверять коллизию между
+##  объектами. К примеру: для увеличения производительности, в этой программе отрисовываются лишь те
+##  объекты, которые попадают в камеру. (Загугли pg.Rect.colliderect для большего)
+
+player = Player( 0 , 0 )
+
+camera = cam( 0 , 0 )
+
 
 
 
